@@ -1,4 +1,5 @@
 import math
+from getpass import getpass
 
 SP_CHAR = "!@#$%^&*()_+-=[]{}|;':\",.<>?/`~ "
 
@@ -59,7 +60,15 @@ def check_password(password, entropy, has_upper, has_lower, has_digit, has_symbo
 
 
 def main():
-    password = input("Enter the password: ")
+    # getpass() hides the password as it's typed, instead of echoing it
+    # to the terminal in plain text — a small but relevant habit for a
+    # tool whose whole purpose is evaluating password security.
+    password = getpass("Enter the password: ")
+
+    if not password:
+        print("No password entered.")
+        return
+
     try:
         entropy, has_upper, has_lower, has_digit, has_symbol = calc_entropy(password)
         print(f"Entropy: {entropy:.2f} bits")
